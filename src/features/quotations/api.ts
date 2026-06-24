@@ -1,8 +1,10 @@
 import { supabase } from "@/lib/supabase";
 import { logActivity } from "@/lib/activity";
 import { computeTotals, lineTotal } from "@/features/invoices/calc";
+import { createInvoice } from "@/features/invoices/api";
+import type { InvoiceFormValues } from "@/features/invoices/schema";
 import type { QuotationFormValues } from "./schema";
-import type { Quotation, QuotationItem, QuotationStatus } from "@/types/database";
+import type { Invoice, Quotation, QuotationItem, QuotationStatus } from "@/types/database";
 
 export interface QuotationListParams {
   search?: string;
@@ -133,4 +135,39 @@ export async function deleteQuotation(id: string): Promise<void> {
   const { error } = await supabase.from("quotations").delete().eq("id", id);
   if (error) throw error;
   void logActivity("Quotations", `deleted quotation`, { quotation_id: id });
+}
+
+/**
+ * Creates a new draft invoice from a quotation's client + line items, and marks
+ * the quotation as accepted. Returns the new invoice. The quotation is kept as a
+ * record; nothing is deleted.
+ */
+export async function convertQuotationToInvoice(q: QuotationWithItems): Promise<Invoice> {
+  const values: InvoiceFormValues = {
+    client_name: q.client_name,
+    client_email: q.client_email ?? "",
+    client_phone: q.client_phone ?? "",
+    project_name: q.project_name ?? "",
+    invoice_date: new Date().toISOString().slice(0, 10),
+    due_date: "",
+    status: "draft",
+    tax_percentage: q.tax_percentage,
+    discount: q.discount,
+    notes: q.notes ?? "",
+    items: q.items.map((it) => ({
+      service_name: it.service_name,
+      description: it.description ?? "",
+      quantity: it.quantity,
+      unit_price: it.unit_price,
+    })),
+  };
+
+  const invoice = await createInvoice(values);
+  await updateQuotationStatus(q.id, "accepted").catch(() => {});
+  void logActivity(
+    "Quotations",
+    `converted ${q.quotation_number} to invoice ${invoice.invoice_number}`,
+    { quotation_id: q.id, invoice_id: invoice.id },
+  );
+  return invoice;
 }

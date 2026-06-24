@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ChevronDown, Pencil, Printer, Trash2 } from "lucide-react";
+import { ArrowLeft, ChevronDown, FileOutput, Loader2, Pencil, Printer, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { FullScreenLoader } from "@/components/FullScreenLoader";
@@ -12,7 +12,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { QuotationStatusBadge, effectiveStatus } from "@/features/quotations/StatusBadge";
-import { deleteQuotation, getQuotation, updateQuotationStatus } from "@/features/quotations/api";
+import {
+  convertQuotationToInvoice,
+  deleteQuotation,
+  getQuotation,
+  updateQuotationStatus,
+  type QuotationWithItems,
+} from "@/features/quotations/api";
 import { useAuth } from "@/features/auth/useAuth";
 import { toast } from "@/components/ui/toast";
 import { env } from "@/lib/env";
@@ -48,6 +54,18 @@ export function QuotationDetailPage() {
     onError: (e) => toast.error("Failed to delete", e instanceof Error ? e.message : undefined),
   });
 
+  const convertMutation = useMutation({
+    mutationFn: (quotation: QuotationWithItems) => convertQuotationToInvoice(quotation),
+    onSuccess: (invoice) => {
+      toast.success("Converted to invoice", `${invoice.invoice_number} created as a draft.`);
+      queryClient.invalidateQueries({ queryKey: ["quotation", id] });
+      queryClient.invalidateQueries({ queryKey: ["quotations"] });
+      queryClient.invalidateQueries({ queryKey: ["invoices"] });
+      navigate(`/invoices/${invoice.id}`);
+    },
+    onError: (e) => toast.error("Could not convert", e instanceof Error ? e.message : undefined),
+  });
+
   if (query.isLoading) return <FullScreenLoader label="Loading quotation…" />;
   if (query.isError || !query.data) {
     return (
@@ -75,6 +93,21 @@ export function QuotationDetailPage() {
           </Button>
           {canManageInvoices && (
             <>
+              <Button
+                onClick={() => {
+                  if (confirm(`Create a draft invoice from ${q.quotation_number}? The quotation will be marked accepted.`)) {
+                    convertMutation.mutate(q);
+                  }
+                }}
+                disabled={convertMutation.isPending}
+              >
+                {convertMutation.isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <FileOutput className="h-4 w-4" />
+                )}
+                Convert to invoice
+              </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline">
