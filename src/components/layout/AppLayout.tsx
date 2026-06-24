@@ -19,7 +19,7 @@ export function AppLayout() {
       <Sidebar mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar onMenuClick={() => setMobileOpen(true)} />
-        <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+        <main className="flex-1 overflow-x-clip px-4 py-6 sm:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-7xl animate-fade-in">
             <Suspense fallback={<ContentLoader />}>
               <Outlet />

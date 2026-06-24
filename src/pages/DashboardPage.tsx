@@ -122,7 +122,7 @@ export function DashboardPage() {
         </div>
       )}
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* My tasks */}
         <Card className="lg:col-span-2">
           <CardHeader className="flex-row items-center justify-between">
@@ -133,7 +133,7 @@ export function DashboardPage() {
               View all
             </Link>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="max-h-[22rem] space-y-2 overflow-y-auto">
             {tasks.isLoading ? (
               <SkeletonRows />
             ) : tasks.data && tasks.data.length > 0 ? (
@@ -171,7 +171,7 @@ export function DashboardPage() {
               Calendar
             </Link>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="max-h-[22rem] space-y-2 overflow-y-auto">
             {events.isLoading ? (
               <SkeletonRows count={3} />
             ) : events.data && events.data.length > 0 ? (
@@ -207,7 +207,7 @@ export function DashboardPage() {
             <Activity className="h-5 w-5 text-primary" /> Recent Activity
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="max-h-[22rem] overflow-y-auto">
           {activity.isLoading ? (
             <SkeletonRows />
           ) : activity.data && activity.data.length > 0 ? (
@@ -215,7 +215,7 @@ export function DashboardPage() {
               {activity.data.map((log) => (
                 <li key={log.id} className="relative">
                   <span className="absolute -left-[27px] top-1 h-3 w-3 rounded-full border-2 border-background bg-primary" />
-                  <p className="text-sm">
+                  <p className="break-words text-sm">
                     <span className="font-medium capitalize">{log.module}</span> — {log.action}
                   </p>
                   <p className="text-xs text-muted-foreground">{relativeTime(log.created_at)}</p>
