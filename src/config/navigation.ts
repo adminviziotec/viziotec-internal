@@ -1,6 +1,7 @@
 import {
   LayoutDashboard,
   FileText,
+  FileSignature,
   KanbanSquare,
   ClipboardList,
   Wallet,
@@ -23,6 +24,7 @@ export interface NavItem {
 export const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", to: "/", icon: LayoutDashboard, section: "main" },
   { label: "Invoices", to: "/invoices", icon: FileText, section: "workspace" },
+  { label: "Quotations", to: "/quotations", icon: FileSignature, section: "workspace" },
   { label: "Leads & CRM", to: "/projects", icon: KanbanSquare, section: "workspace" },
   { label: "Project Management", to: "/project-management", icon: ClipboardList, section: "workspace" },
   {

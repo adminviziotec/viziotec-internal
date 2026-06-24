@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import type { ActivityLog } from "@/types/database";
 
-export const ACTIVITY_MODULES = ["Invoices", "Projects", "Finance", "Calendar", "Team"] as const;
+export const ACTIVITY_MODULES = ["Invoices", "Quotations", "Projects", "Finance", "Calendar", "Team"] as const;
 
 export interface ActivityListParams {
   module?: string | "all";

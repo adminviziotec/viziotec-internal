@@ -3,6 +3,7 @@
 
 export type UserRole = "owner" | "co_owner" | "team_member";
 export type InvoiceStatus = "draft" | "sent" | "paid" | "overdue" | "cancelled";
+export type QuotationStatus = "draft" | "sent" | "accepted" | "rejected" | "expired";
 export type ProjectStatus =
   | "lead"
   | "proposal_sent"
@@ -73,6 +74,40 @@ export type Invoice = {
 export type InvoiceItem = {
   id: string;
   invoice_id: string;
+  service_name: string;
+  description: string | null;
+  quantity: number;
+  unit_price: number;
+  total_price: number;
+  sort_order: number;
+}
+
+export type Quotation = {
+  id: string;
+  quotation_number: string;
+  client_name: string;
+  client_email: string | null;
+  client_phone: string | null;
+  project_id: string | null;
+  project_name: string | null;
+  quotation_date: string;
+  valid_until: string | null;
+  subtotal: number;
+  tax_percentage: number;
+  tax_amount: number;
+  discount: number;
+  grand_total: number;
+  status: QuotationStatus;
+  notes: string | null;
+  pdf_url: string | null;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export type QuotationItem = {
+  id: string;
+  quotation_id: string;
   service_name: string;
   description: string | null;
   quantity: number;
@@ -187,6 +222,8 @@ export type Database = {
       users: Row<UserProfile>;
       invoices: Row<Invoice>;
       invoice_items: Row<InvoiceItem>;
+      quotations: Row<Quotation>;
+      quotation_items: Row<QuotationItem>;
       projects: Row<Project>;
       project_activity: Row<ProjectActivity>;
       finance_transactions: Row<FinanceTransaction>;
@@ -196,6 +233,9 @@ export type Database = {
       activity_logs: Row<ActivityLog>;
     };
     Views: { company_cash: { Row: CompanyCash; Relationships: [] } };
-    Functions: { next_invoice_number: { Args: Record<string, never>; Returns: string } };
+    Functions: {
+      next_invoice_number: { Args: Record<string, never>; Returns: string };
+      next_quotation_number: { Args: Record<string, never>; Returns: string };
+    };
   };
 }

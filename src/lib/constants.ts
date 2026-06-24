@@ -4,6 +4,7 @@ import type {
   NoteColor,
   ProjectPriority,
   ProjectStatus,
+  QuotationStatus,
   ServiceType,
   TransactionType,
   UserRole,
@@ -33,6 +34,22 @@ export const INVOICE_STATUS_TONES: ToneMap<InvoiceStatus> = {
   paid: "bg-success/15 text-success",
   overdue: "bg-destructive/15 text-destructive",
   cancelled: "bg-muted text-muted-foreground line-through",
+};
+
+export const QUOTATION_STATUS_LABELS: LabelMap<QuotationStatus> = {
+  draft: "Draft",
+  sent: "Sent",
+  accepted: "Accepted",
+  rejected: "Rejected",
+  expired: "Expired",
+};
+
+export const QUOTATION_STATUS_TONES: ToneMap<QuotationStatus> = {
+  draft: "bg-muted text-muted-foreground",
+  sent: "bg-blue-500/15 text-blue-600 dark:text-blue-400",
+  accepted: "bg-success/15 text-success",
+  rejected: "bg-destructive/15 text-destructive",
+  expired: "bg-amber-500/15 text-amber-600 dark:text-amber-400",
 };
 
 export const PROJECT_STATUS_LABELS: LabelMap<ProjectStatus> = {

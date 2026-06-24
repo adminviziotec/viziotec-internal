@@ -122,10 +122,13 @@
     visibility: hidden;
   }
   #invoice-print,
-  #invoice-print * {
+  #invoice-print *,
+  #document-print,
+  #document-print * {
     visibility: visible;
   }
-  #invoice-print {
+  #invoice-print,
+  #document-print {
     position: absolute;
     left: 0;
     top: 0;

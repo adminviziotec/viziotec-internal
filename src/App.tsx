@@ -22,6 +22,9 @@ const NotFoundPage = named(() => import("@/pages/NotFoundPage"), "NotFoundPage")
 const InvoiceListPage = named(() => import("@/pages/invoices/InvoiceListPage"), "InvoiceListPage");
 const InvoiceDetailPage = named(() => import("@/pages/invoices/InvoiceDetailPage"), "InvoiceDetailPage");
 const InvoiceFormPage = named(() => import("@/pages/invoices/InvoiceFormPage"), "InvoiceFormPage");
+const QuotationListPage = named(() => import("@/pages/quotations/QuotationListPage"), "QuotationListPage");
+const QuotationDetailPage = named(() => import("@/pages/quotations/QuotationDetailPage"), "QuotationDetailPage");
+const QuotationFormPage = named(() => import("@/pages/quotations/QuotationFormPage"), "QuotationFormPage");
 const ProjectsPage = named(() => import("@/pages/projects/ProjectsPage"), "ProjectsPage");
 const ProjectDetailPage = named(() => import("@/pages/projects/ProjectDetailPage"), "ProjectDetailPage");
 const ProjectManagementPage = named(
@@ -59,6 +62,12 @@ export function App() {
               <Route element={<RoleRoute allow={["owner", "co_owner"]} />}>
                 <Route path="invoices/new" element={<InvoiceFormPage />} />
                 <Route path="invoices/:id/edit" element={<InvoiceFormPage />} />
+              </Route>
+              <Route path="quotations" element={<QuotationListPage />} />
+              <Route path="quotations/:id" element={<QuotationDetailPage />} />
+              <Route element={<RoleRoute allow={["owner", "co_owner"]} />}>
+                <Route path="quotations/new" element={<QuotationFormPage />} />
+                <Route path="quotations/:id/edit" element={<QuotationFormPage />} />
               </Route>
               <Route path="projects" element={<ProjectsPage />} />
               <Route path="projects/:id" element={<ProjectDetailPage />} />
