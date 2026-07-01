@@ -69,20 +69,22 @@ export function ProjectManagementPage() {
 
       <Tabs value={bucket} onValueChange={(v) => setBucket(v as Bucket)}>
         <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-          <TabsList>
-            {(Object.keys(BUCKET_LABELS) as Bucket[]).map((b) => (
-              <TabsTrigger key={b} value={b}>
-                {BUCKET_LABELS[b]}
-                <span className="ml-1.5 rounded-full bg-background/60 px-1.5 text-xs">
-                  {byBucket[b].length}
-                </span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <div className="-mx-1 min-w-0 max-w-full overflow-x-auto px-1">
+            <TabsList className="w-max">
+              {(Object.keys(BUCKET_LABELS) as Bucket[]).map((b) => (
+                <TabsTrigger key={b} value={b} className="whitespace-nowrap">
+                  {BUCKET_LABELS[b]}
+                  <span className="ml-1.5 rounded-full bg-background/60 px-1.5 text-xs">
+                    {byBucket[b].length}
+                  </span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
           <div className="flex items-center gap-2">
             <Select value={serviceType} onValueChange={(v) => setServiceType(v as ServiceType | "all")}>
-              <SelectTrigger className="w-52">
+              <SelectTrigger className="min-w-0 flex-1 sm:w-52 sm:flex-none">
                 <SelectValue placeholder="Type" />
               </SelectTrigger>
               <SelectContent>
@@ -94,7 +96,7 @@ export function ProjectManagementPage() {
                 ))}
               </SelectContent>
             </Select>
-            <div className="flex rounded-md border p-0.5">
+            <div className="flex shrink-0 rounded-md border p-0.5">
               <button
                 onClick={() => setGrid(true)}
                 className={`rounded p-1.5 ${grid ? "bg-muted" : ""}`}
@@ -125,7 +127,7 @@ export function ProjectManagementPage() {
             {serviceType !== "all" ? ` for ${SERVICE_TYPE_LABELS[serviceType]}` : ""}.
           </Card>
         ) : grid ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {visible.map((p) => (
               <ProjectMgmtCard key={p.id} project={p} onClick={() => navigate(`/projects/${p.id}`)} />
             ))}

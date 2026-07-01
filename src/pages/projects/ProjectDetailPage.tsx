@@ -122,8 +122,8 @@ export function ProjectDetailPage() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-2">
+      <div className="grid min-w-0 gap-6 lg:grid-cols-3">
+        <div className="min-w-0 space-y-6 lg:col-span-2">
           {/* Overview */}
           <Card>
             <CardHeader>
@@ -195,14 +195,14 @@ export function ProjectDetailPage() {
                 ) : (
                   <div className="space-y-2">
                     {p.finance.map((f) => (
-                      <div key={f.id} className="flex items-center justify-between rounded-lg border p-2.5 text-sm">
-                        <div>
-                          <p className="font-medium">{f.title}</p>
-                          <p className="text-xs text-muted-foreground">
+                      <div key={f.id} className="flex items-center justify-between gap-3 rounded-lg border p-2.5 text-sm">
+                        <div className="min-w-0">
+                          <p className="truncate font-medium">{f.title}</p>
+                          <p className="truncate text-xs text-muted-foreground">
                             {f.category} · {formatDate(f.transaction_date)}
                           </p>
                         </div>
-                        <span className={cn("font-semibold", f.type === "income" ? "text-success" : "text-destructive")}>
+                        <span className={cn("shrink-0 whitespace-nowrap font-semibold tabular-nums", f.type === "income" ? "text-success" : "text-destructive")}>
                           {f.type === "income" ? "+" : "−"}
                           {formatCurrency(f.amount)}
                         </span>
@@ -228,7 +228,7 @@ export function ProjectDetailPage() {
         </div>
 
         {/* Sidebar */}
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>People</CardTitle>
@@ -240,10 +240,10 @@ export function ProjectDetailPage() {
                 </p>
                 {pm ? (
                   <div className="flex items-center gap-2">
-                    <UserAvatar name={pm.full_name} image={pm.profile_image} className="h-8 w-8 text-xs" />
-                    <div>
-                      <p className="text-sm font-medium">{pm.full_name || pm.email}</p>
-                      {pm.position && <p className="text-xs text-muted-foreground">{pm.position}</p>}
+                    <UserAvatar name={pm.full_name} image={pm.profile_image} className="h-8 w-8 shrink-0 text-xs" />
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-medium">{pm.full_name || pm.email}</p>
+                      {pm.position && <p className="truncate text-xs text-muted-foreground">{pm.position}</p>}
                     </div>
                   </div>
                 ) : (
@@ -277,7 +277,7 @@ export function ProjectDetailPage() {
                     return (
                       <li key={a.id} className="relative">
                         <span className="absolute -left-[23px] top-1 h-2.5 w-2.5 rounded-full border-2 border-background bg-primary" />
-                        <p className="text-sm">
+                        <p className="break-words text-sm">
                           <span className="font-medium">{actor?.full_name?.split(" ")[0] ?? "Someone"}</span>{" "}
                           {a.activity}
                         </p>
@@ -302,8 +302,8 @@ function Info({ label, value, icon }: { label: string; value: string; icon?: Rea
     <div>
       <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</p>
       <p className="mt-0.5 flex items-center gap-1.5 text-sm font-medium">
-        {icon}
-        {value}
+        {icon && <span className="shrink-0">{icon}</span>}
+        <span className="min-w-0 break-words">{value}</span>
       </p>
     </div>
   );
@@ -311,9 +311,9 @@ function Info({ label, value, icon }: { label: string; value: string; icon?: Rea
 
 function Stat({ label, value, tone }: { label: string; value: string; tone: string }) {
   return (
-    <div className="rounded-lg border p-2.5">
+    <div className="min-w-0 rounded-lg border p-2.5">
       <p className="text-xs text-muted-foreground">{label}</p>
-      <p className={cn("text-sm font-bold", tone)}>{value}</p>
+      <p className={cn("break-words text-sm font-bold leading-tight tabular-nums", tone)}>{value}</p>
     </div>
   );
 }

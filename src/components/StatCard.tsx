@@ -32,7 +32,7 @@ export function StatCard({ label, value, icon: Icon, hint, tone = "primary", loa
           {loading ? (
             <Skeleton className="mt-1 h-7 w-24" />
           ) : (
-            <p className="truncate text-2xl font-bold tracking-tight">{value}</p>
+            <p className="break-words text-2xl font-bold leading-tight tracking-tight tabular-nums">{value}</p>
           )}
           {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
         </div>

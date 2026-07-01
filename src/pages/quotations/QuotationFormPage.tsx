@@ -105,8 +105,8 @@ export function QuotationFormPage() {
         </Button>
       </PageHeader>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-2">
+      <div className="grid min-w-0 gap-6 lg:grid-cols-3">
+        <div className="min-w-0 space-y-6 lg:col-span-2">
           <Card>
             <CardHeader>
               <CardTitle>Client information</CardTitle>
@@ -157,13 +157,13 @@ export function QuotationFormPage() {
                   <div className="col-span-3 sm:col-span-2 flex flex-col">
                     <Label className="text-xs text-muted-foreground">Total</Label>
                     <div className="flex flex-1 items-center justify-between gap-1">
-                      <span className="truncate text-sm font-medium">
+                      <span className="min-w-0 break-words text-xs font-medium leading-tight tabular-nums sm:text-sm">
                         {formatCurrency(lineTotal(items?.[index] ?? { quantity: 0, unit_price: 0 }))}
                       </span>
                       <button
                         type="button"
                         onClick={() => fields.length > 1 && remove(index)}
-                        className="text-muted-foreground hover:text-destructive disabled:opacity-30"
+                        className="shrink-0 text-muted-foreground hover:text-destructive disabled:opacity-30"
                         disabled={fields.length <= 1}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -192,7 +192,7 @@ export function QuotationFormPage() {
           </Card>
         </div>
 
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Details</CardTitle>
@@ -238,9 +238,11 @@ export function QuotationFormPage() {
               </div>
               <Row label="Tax amount" value={formatCurrency(totals.taxAmount)} />
               <div className="border-t pt-3">
-                <div className="flex items-center justify-between">
-                  <span className="font-semibold">Grand total</span>
-                  <span className="text-xl font-bold text-primary">{formatCurrency(totals.grandTotal)}</span>
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="shrink-0 font-semibold">Grand total</span>
+                  <span className="min-w-0 break-words text-right text-lg font-bold text-primary tabular-nums sm:text-xl">
+                    {formatCurrency(totals.grandTotal)}
+                  </span>
                 </div>
               </div>
             </CardContent>
@@ -263,9 +265,9 @@ function Field({ label, error, children }: { label: string; error?: string; chil
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between text-sm">
-      <span className="text-muted-foreground">{label}</span>
-      <span className="font-medium">{value}</span>
+    <div className="flex items-baseline justify-between gap-3 text-sm">
+      <span className="shrink-0 text-muted-foreground">{label}</span>
+      <span className="min-w-0 break-words text-right font-medium tabular-nums">{value}</span>
     </div>
   );
 }

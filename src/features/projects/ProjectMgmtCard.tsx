@@ -45,7 +45,7 @@ export function ProjectMgmtCard({ project, onClick }: { project: Project; onClic
           <UserCog className="h-4 w-4 shrink-0 text-muted-foreground" />
           {pm ? (
             <div className="flex min-w-0 items-center gap-2">
-              <UserAvatar name={pm.full_name} image={pm.profile_image} className="h-6 w-6 text-[10px]" />
+              <UserAvatar name={pm.full_name} image={pm.profile_image} className="h-6 w-6 shrink-0 text-[10px]" />
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium leading-tight">{pm.full_name || pm.email}</p>
                 <p className="text-[11px] text-muted-foreground">Project manager</p>
@@ -64,11 +64,11 @@ export function ProjectMgmtCard({ project, onClick }: { project: Project; onClic
           <Progress value={project.progress} className="h-1.5" />
         </div>
 
-        <div className="flex items-center justify-between pt-1">
+        <div className="flex items-center justify-between gap-2 pt-1">
           <AssigneeAvatars ids={project.assigned_to} />
           {project.deadline && (
-            <span className={cn("flex items-center gap-1 text-[11px]", overdue ? "text-destructive" : "text-muted-foreground")}>
-              <CalendarClock className="h-3 w-3" />
+            <span className={cn("flex shrink-0 items-center gap-1 whitespace-nowrap text-[11px]", overdue ? "text-destructive" : "text-muted-foreground")}>
+              <CalendarClock className="h-3 w-3 shrink-0" />
               {formatDate(project.deadline, { day: "2-digit", month: "short", year: "numeric" })}
             </span>
           )}
